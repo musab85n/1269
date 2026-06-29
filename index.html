@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Royal Court 1269 - Submit Violation</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { background-color: #0b0b0e; color: #e4e4e7; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
+
+    <div class="w-full max-w-4xl rounded-xl overflow-hidden border border-amber-600/30 shadow-2xl shadow-red-950/40 mb-8">
+        <img src="court_banner.png" alt="The Royal Court of Kingdom 1269" class="w-full h-auto object-cover">
+    </div>
+
+    <div class="text-center mb-8 max-w-2xl px-4">
+        <h1 class="text-3xl font-extrabold tracking-wider text-amber-500 uppercase font-serif">The Royal Court Executive</h1>
+        <p class="text-zinc-400 mt-3 text-sm italic border-l-2 border-amber-600 pl-4 inline-block">
+            "Justice is not always serious, but order will be maintained with an iron fist."
+        </p>
+    </div>
+
+    <div class="w-full max-w-2xl bg-zinc-900/90 border border-zinc-800 p-6 rounded-xl shadow-xl backdrop-blur-sm">
+        <h2 class="text-lg font-semibold mb-6 text-amber-400/90 uppercase tracking-wide border-b border-zinc-800 pb-3">Submit New Violation Report</h2>
+        
+        <form id="violationForm" class="space-y-5">
+            <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Date of Violation</label>
+                <input type="date" required id="violationDate" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
+            </div>
+
+            <div class="bg-zinc-950/60 p-4 rounded-lg border border-zinc-800/60 space-y-3">
+                <span class="text-[10px] font-bold uppercase text-amber-500 tracking-wider">Plaintiff Info (Your Details)</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <input type="text" id="pName" placeholder="Player Name" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500">
+                    <input type="text" id="pAlliance" placeholder="Alliance Tag" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500">
+                    <input type="text" id="pID" placeholder="Game ID" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500">
+                </div>
+            </div>
+
+            <div class="bg-zinc-950/60 p-4 rounded-lg border border-zinc-800/60 space-y-3">
+                <span class="text-[10px] font-bold uppercase text-red-500 tracking-wider">Defendant Info (Accused)</span>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <input type="text" id="dName" placeholder="Accused Name" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500">
+                    <input type="text" id="dAlliance" placeholder="Alliance Tag" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500">
+                    <input type="text" id="dID" placeholder="Game ID" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Violation Type</label>
+                <select required id="violationType" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
+                    <option value="" disabled selected>Select the rule violated</option>
+                    <option value="1">Violation 1: Attacking, scouting, or launching rallies against a NAP alliance or its academy alliance.</option>
+                    <option value="2">Violation 2: Attacking Kingdom members in Arena</option>
+                    <option value="3">Violation 3: Poaching members from a NAP alliance.</option>
+                    <option value="4">Violation 4: Transferring top players into an academy to gain an advantage in Outpost or Sanctuary battles.</option>
+                    <option value="5">Violation 5: Attacking or intentionally blocking the banners, Outposts, or territory expansion of a NAP alliance.</option>
+                    <option value="6">Violation 6: Harassment, personal attacks, threats, or doxxing.</option>
+                    <option value="7">Violation 7: Other complaints</option>
+                </select>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-center mb-1">
+                    <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Additional Demands / Notes</label>
+                    <span id="charCount" class="text-xs text-zinc-500">0 / 300</span>
+                </div>
+                <textarea id="notes" maxlength="300" rows="3" placeholder="Enter your specific demands or notes here..." class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 resize-none text-zinc-300"></textarea>
+            </div>
+
+            <div>
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Evidence Image URL</label>
+                <input type="url" id="evidenceUrl" placeholder="https://screenshot-link.com/img.jpg" required class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
+            </div>
+
+            <button type="submit" class="w-full bg-gradient-to-r from-amber-700 to-red-700 hover:from-amber-600 hover:to-red-600 text-white font-bold py-3 px-4 rounded transition duration-200 uppercase tracking-wider text-xs cursor-pointer shadow-lg shadow-red-900/30">
+                File Complaint to The Court
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const textarea = document.getElementById('notes');
+        const charCount = document.getElementById('charCount');
+        textarea.addEventListener('input', () => {
+            charCount.textContent = `${textarea.value.length} / 300`;
+        });
+    </script>
+</body>
+</html>
