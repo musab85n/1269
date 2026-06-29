@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Judge Courtroom - Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        body { background-color: #0b0b0e; color: #e4e4e7; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #141419; }
+        ::-webkit-scrollbar-thumb { background: #b45309; border-radius: 3px; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="flex flex-col md:flex-row items-center justify-between border-b border-zinc-800 pb-6 mb-8 gap-4">
+        <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row w-full max-w-xl">
+            <img src="court_banner.png" alt="The Royal Court" class="w-24 h-16 rounded border border-amber-600/30 object-cover shadow-md">
+            <div>
+                <h1 class="text-xl font-bold tracking-wider text-amber-500 uppercase font-serif">Court Records Dashboard</h1>
+                <p class="text-zinc-400 text-xs italic mt-0.5">Logged in as: <span class="text-red-400 font-semibold font-mono">HELL (The Judge)</span></p>
+            </div>
+        </div>
+        
+        <div class="bg-zinc-900/50 border border-zinc-800 p-3 rounded-lg text-sm min-w-[200px] w-full md:w-auto">
+            <span class="text-xs font-bold text-zinc-500 uppercase block mb-1">Today's Legal Brief</span>
+            <div class="flex justify-between text-xs text-zinc-300">
+                <span>Total Today: <strong class="text-amber-500" id="todayCount">0</strong></span>
+                <span>Pending: <strong class="text-red-400" id="pendingCount">0</strong></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-zinc-900 border border-zinc-800 p-4 rounded-xl mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 items-end">
+        <div class="sm:col-span-2">
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Search Plaintiff / Defendant (Name or ID)</label>
+            <input type="text" id="searchInput" placeholder="Type name or game ID..." class="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-xs focus:outline-none focus:border-amber-500 text-zinc-200">
+        </div>
+        <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Sort By Date</label>
+            <select id="dateSort" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2 text-xs focus:outline-none focus:border-amber-500 text-zinc-200">
+                <option value="newest">Newest to Oldest</option>
+                <option value="oldest">Oldest to Newest</option>
+            </select>
+        </div>
+        <div>
+            <button id="resetFilters" class="w-full bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-bold py-2 px-3 rounded border border-zinc-700 transition cursor-pointer">
+                Clear Filters
+            </button>
+        </div>
+    </div>
+
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl overflow-hidden">
+        <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse min-w-[1000px]">
+                <thead>
+                    <tr class="bg-zinc-950 border-b border-zinc-800 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                        <th class="p-4 w-24">Serial No.</th>
+                        <th class="p-4 w-32">Date</th>
+                        <th class="p-4">Plaintiff Details</th>
+                        <th class="p-4">Defendant Details</th>
+                        <th class="p-4">Violation Type</th>
+                        <th class="p-4 max-w-xs">Notes / Demands</th>
+                        <th class="p-4 w-28 text-center">Evidence</th>
+                        <th class="p-4 w-64">Action Taken (Admin Only)</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsTableBody" class="divide-y divide-zinc-800/50 text-xs">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
