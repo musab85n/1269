@@ -4,62 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Royal Court 1269 - Submit Violation</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         body { background-color: #0b0b0e; color: #e4e4e7; }
+        .form-container { background-color: rgba(24, 24, 27, 0.9); border: 1px solid #27272a; }
+        .input-field { background-color: #09090b; border: 1px solid #27272a; }
+        .input-field:focus { border-color: #f59e0b; outline: none; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center p-4 md:p-8">
 
-    <div class="w-full max-w-4xl rounded-xl overflow-hidden border border-amber-600/30 shadow-2xl shadow-red-950/40 mb-6">
+    <div class="w-full max-w-4xl rounded-xl overflow-hidden border border-amber-600 shadow-2xl mb-6" style="border-color: rgba(217, 119, 6, 0.3);">
         <img src="court_banner.png" alt="The Royal Court of Kingdom 1269" class="w-full h-auto object-cover">
     </div>
 
     <div class="mb-6 w-full max-w-2xl text-right">
-        <a href="rules.html" class="inline-flex items-center gap-2 bg-amber-950/40 hover:bg-amber-900/40 text-amber-500 text-xs font-bold px-4 py-2 rounded-lg border border-amber-700/30 transition">
+        <a href="rules.html" class="inline-flex items-center gap-2 text-amber-500 text-xs font-bold px-4 py-2 rounded-lg border transition hover:bg-gray-900" style="background-color: rgba(69, 26, 3, 0.4); border-color: rgba(185, 28, 28, 0.3);">
             📜 View Kingdom Rules & Laws
         </a>
     </div>
 
     <div class="text-center mb-8 max-w-2xl px-4">
-        <h1 class="text-3xl font-extrabold tracking-wider text-amber-500 uppercase font-serif">The Royal Court Executive</h1>
-        <p class="text-zinc-400 mt-3 text-sm italic border-l-2 border-amber-600 pl-4 inline-block">
+        <h1 class="text-3xl font-extrabold tracking-wider text-amber-500 uppercase font-serif" style="color: #f59e0b;">The Royal Court Executive</h1>
+        <p class="text-gray-400 mt-3 text-sm italic border-l-2 pl-4 inline-block style-quote" style="border-color: #ea580c;">
             "Justice is not always serious, but order will be maintained with an iron fist."
         </p>
     </div>
 
-    <div class="w-full max-w-2xl bg-zinc-900/90 border border-zinc-800 p-6 rounded-xl shadow-xl backdrop-blur-sm mb-8">
-        <h2 class="text-lg font-semibold mb-6 text-amber-400/90 uppercase tracking-wide border-b border-zinc-800 pb-3">Submit New Violation Report</h2>
+    <div class="w-full max-w-2xl form-container p-6 rounded-xl shadow-xl backdrop-blur-sm mb-8">
+        <h2 class="text-lg font-semibold mb-6 text-amber-400 uppercase tracking-wide border-b pb-3" style="color: #fbbf24; border-color: #27272a;">Submit New Violation Report</h2>
         
         <form id="violationForm" class="space-y-5">
-            <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Date of Violation</label>
-                <input type="date" required id="violationDate" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
+            <div class="mb-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Date of Violation</label>
+                <input type="date" required id="violationDate" class="w-full input-field rounded p-2.5 text-sm text-gray-300">
             </div>
 
-            <div class="bg-zinc-950/60 p-4 rounded-lg border border-zinc-800/60 space-y-3">
-                <span class="text-[10px] font-bold uppercase text-amber-500 tracking-wider">Plaintiff Info (Your Details)</span>
+            <div class="p-4 rounded-lg border space-y-3 mb-4" style="background-color: rgba(9, 9, 11, 0.6); border-color: rgba(39, 39, 42, 0.6);">
+                <span class="text-xs font-bold uppercase tracking-wider" style="color: #f59e0b;">Plaintiff Info (Your Details)</span>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <input type="text" id="pName" placeholder="Player Name" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500 text-zinc-200">
-                    <input type="text" id="pAlliance" placeholder="Alliance Tag" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500 text-zinc-200">
-                    <input type="text" id="pID" placeholder="Game ID" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500 text-zinc-200">
+                    <input type="text" id="pName" placeholder="Player Name" required class="w-full input-field rounded p-2 text-sm text-gray-200">
+                    <input type="text" id="pAlliance" placeholder="Alliance Tag" required class="w-full input-field rounded p-2 text-sm text-gray-200">
+                    <input type="text" id="pID" placeholder="Game ID" required class="w-full input-field rounded p-2 text-sm text-gray-200">
                 </div>
             </div>
 
-            <div class="bg-zinc-950/60 p-4 rounded-lg border border-zinc-800/60 space-y-3">
-                <span class="text-[10px] font-bold uppercase text-red-500 tracking-wider">Defendant Info (Accused)</span>
+            <div class="p-4 rounded-lg border space-y-3 mb-4" style="background-color: rgba(9, 9, 11, 0.6); border-color: rgba(39, 39, 42, 0.6);">
+                <span class="text-xs font-bold uppercase tracking-wider" style="color: #f87171;">Defendant Info (Accused)</span>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <input type="text" id="dName" placeholder="Accused Name" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-200">
-                    <input type="text" id="dAlliance" placeholder="Alliance Tag" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-200">
-                    <input type="text" id="dID" placeholder="Game ID" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-200">
+                    <input type="text" id="dName" placeholder="Accused Name" required class="w-full input-field rounded p-2 text-sm text-gray-200">
+                    <input type="text" id="dAlliance" placeholder="Alliance Tag" required class="w-full input-field rounded p-2 text-sm text-gray-200">
+                    <input type="text" id="dID" placeholder="Game ID" required class="w-full input-field rounded p-2 text-sm text-gray-200">
                 </div>
             </div>
 
-            <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Violation Type</label>
-                <select required id="violationType" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
+            <div class="mb-4">
+                <label class="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Violation Type</label>
+                <select required id="violationType" class="w-full input-field rounded p-2.5 text-sm text-gray-300">
                     <option value="" disabled selected>Select the rule violated</option>
                     <option value="Violation 1: Attacking/scouting a NAP alliance.">Violation 1: Attacking, scouting, or launching rallies against a NAP alliance or its academy alliance.</option>
                     <option value="Violation 2: Attacking Kingdom members in Arena.">Violation 2: Attacking Kingdom members in Arena</option>
@@ -71,33 +75,33 @@
                 </select>
             </div>
 
-            <div>
+            <div class="mb-4">
                 <div class="flex justify-between items-center mb-1">
-                    <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Additional Demands / Notes</label>
-                    <span id="charCount" class="text-xs text-zinc-500">0 / 300</span>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Additional Demands / Notes</label>
+                    <span id="charCount" class="text-xs text-gray-500">0 / 300</span>
                 </div>
-                <textarea id="notes" maxlength="300" rows="3" placeholder="Enter your specific demands or notes here..." class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 resize-none text-zinc-300"></textarea>
+                <textarea id="notes" maxlength="300" rows="3" placeholder="Enter your specific demands or notes here..." class="w-full input-field rounded p-2.5 text-sm text-gray-300 resize-none"></textarea>
             </div>
 
-            <div>
+            <div class="mb-6">
                 <div class="flex justify-between items-center mb-1">
-                    <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Evidence Image URL</label>
-                    <a href="https://imgbb.com" target="_blank" class="text-[10px] font-bold text-amber-500 hover:underline">📸 Quick upload: Upload screen here and copy link</a>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-gray-400">Evidence Image URL</label>
+                    <a href="https://imgbb.com" target="_blank" class="text-xs font-bold text-amber-500 hover:underline" style="color: #f59e0b;">📸 Quick upload: Upload screen here and copy link</a>
                 </div>
-                <input type="url" id="evidenceUrl" placeholder="https://i.ibb.co/screenshot.jpg" required class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
+                <input type="url" id="evidenceUrl" placeholder="https://i.ibb.co/screenshot.jpg" required class="w-full input-field rounded p-2.5 text-sm text-gray-300">
             </div>
 
-            <button type="submit" class="w-full bg-gradient-to-r from-amber-700 to-red-700 hover:from-amber-600 hover:to-red-600 text-white font-bold py-3 px-4 rounded transition duration-200 uppercase tracking-wider text-xs cursor-pointer shadow-lg shadow-red-900/30">
+            <button type="submit" class="w-full text-white font-bold py-3 px-4 rounded transition duration-200 uppercase tracking-wider text-xs cursor-pointer shadow-lg hover:opacity-90" style="background-image: linear-gradient(to right, #b45309, #b91c1c);">
                 File Complaint to The Court
             </button>
         </form>
     </div>
 
-    <div class="w-full max-w-2xl text-center border-t border-zinc-800/60 pt-4 flex flex-col items-center gap-3 mb-8">
-        <a href="admin.html" class="text-[10px] uppercase font-bold tracking-widest text-zinc-500 hover:text-amber-500 transition px-3 py-1.5 border border-zinc-800 hover:border-amber-600/30 rounded-lg bg-zinc-900/40">
+    <div class="w-full max-w-2xl text-center border-t border-gray-800 pt-4 flex flex-col items-center gap-3 mb-8" style="border-color: #27272a;">
+        <a href="admin.html" class="text-xs uppercase font-bold tracking-widest text-gray-500 hover:text-amber-500 transition px-3 py-1.5 border rounded-lg" style="border-color: #27272a; background-color: rgba(24, 24, 27, 0.4);">
             🔐 Judge Access (Admin)
         </a>
-        <div class="text-[10px] tracking-widest font-mono text-zinc-600 uppercase">
+        <div class="text-xs tracking-widest font-mono text-gray-600 uppercase">
             Designed by Hell
         </div>
     </div>
@@ -127,6 +131,7 @@
             btn.innerText = "SUBMITTING TO THE ROYAL COURT...";
 
             try {
+                // جلب عدد الشكاوى الحالي لإنشاء السيريال التلقائي بشكل آمن
                 const snapshot = await db.collection('complaints').get();
                 const serialNo = snapshot.size + 1;
 
@@ -146,11 +151,13 @@
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
 
-                alert("Your violation report has been submitted successfully to The Royal Court!");
+                // عبارة التأكيد المطلوبة بعد الإرسال بنجاح
+                alert("Get good 👍🏽 \nYour complaint has been sent successfully");
+                
                 document.getElementById('violationForm').reset();
                 charCount.textContent = "0 / 300";
             } catch (error) {
-                alert("Error sending report.");
+                alert("Error sending report: " + error.message);
             } finally {
                 btn.disabled = false;
                 btn.innerText = "File Complaint to The Court";
