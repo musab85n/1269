@@ -48,4 +48,230 @@
                 <button onclick="exportToCSV()" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-4 rounded border border-emerald-600 transition cursor-pointer w-full sm:w-auto">
                     📊 Export Full Report (CSV)
                 </button>
-                <button onclick="signOut()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-400 font-bold text-xs py-2 px-4 rounded border border-
+                <button onclick="signOut()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-400 font-bold text-xs py-2 px-4 rounded border border-zinc-700 transition cursor-pointer w-full sm:w-auto">
+                    🚪 Logout
+                </button>
+                <div class="bg-zinc-900/50 border border-zinc-800 p-3 rounded-lg text-sm w-full sm:w-auto min-w-[150px]">
+                    <div class="flex justify-around text-xs text-zinc-300 gap-4">
+                        <span>Total: <strong class="text-amber-500 font-mono" id="totalCount">0</strong></span>
+                        <span>Pending: <strong class="text-red-400 font-mono" id="pendingCount">0</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-zinc-900/80 border border-zinc-800 p-4 rounded-xl mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+            <div class="sm:col-span-2">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Search Player Name or ID</label>
+                <input type="text" id="searchInput" oninput="filterCards()" placeholder="Type name or game ID to search..." class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-zinc-200">
+            </div>
+            <div>
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Sort Timeline</label>
+                <select id="dateSort" onchange="sortCards()" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-zinc-200">
+                    <option value="newest">Newest to Oldest</option>
+                    <option value="oldest">Oldest to Newest</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="recordsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 🔒 قائمة الحسابات المصرح لها بدخول الأدمن 🔒
+        // ==========================================
+        const ALLOWED_JUDGES = [
+            "your-email@gmail.com", // ضع إيميلك الشخصي هنا بحروف صغيرة
+            "another-judge@gmail.com",
+            "helper1269@gmail.com"
+        ];
+
+        // Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyC5kSFhwskwBI60dPq1VsI2jdIJpWtMSMY",
+            authDomain: "k1269-98ae8.firebaseapp.com",
+            projectId: "k1269-98ae8",
+            storageBucket: "k1269-98ae8.firebasestorage.app",
+            messagingSenderId: "1083795874753",
+            appId: "1:1083795874753:web:bd21c5aeb0484a660f8540"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        let allComplaints = [];
+
+        // مراقبة حالة تسجيل الدخول تلقائياً
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                if (ALLOWED_JUDGES.includes(user.email.toLowerCase())) {
+                    document.getElementById('loginScreen').style.display = 'none';
+                    document.getElementById('adminContent').style.display = 'block';
+                    document.body.className = "min-h-screen p-4 md:p-8 flex flex-col justify-start items-center";
+                    document.getElementById('judgeEmailDisplay').innerText = user.email;
+                    
+                    loadLiveRecords();
+                } else {
+                    alert("Access Denied: Your Google account (" + user.email + ") is not authorized as a Judge!");
+                    auth.signOut();
+                }
+            } else {
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('adminContent').style.display = 'none';
+                document.body.className = "min-h-screen p-4 md:p-8 flex flex-col justify-center items-center";
+            }
+        });
+
+        // تسجيل الدخول بواسطة جوجل
+        function signInWithGoogle() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).catch((error) => {
+                alert("Authentication Failed: " + error.message);
+            });
+        }
+
+        // تسجيل الخروج
+        function signOut() {
+            auth.signOut().then(() => {
+                window.location.reload();
+            });
+        }
+
+        // جلب البيانات من الداتابيز
+        function loadLiveRecords() {
+            db.collection('complaints').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
+                allComplaints = [];
+                snapshot.forEach(doc => {
+                    let data = doc.data();
+                    data.id = doc.id;
+                    allComplaints.push(data);
+                });
+                renderCards(allComplaints);
+            }, (error) => {
+                console.error("Firestore error:", error);
+            });
+        }
+
+        function renderCards(dataArray) {
+            const container = document.getElementById('recordsContainer');
+            container.innerHTML = "";
+            let pending = 0;
+
+            if(dataArray.length === 0) {
+                container.innerHTML = `<div class="text-center text-zinc-600 p-8 col-span-full">No active files matching query.</div>`;
+                document.getElementById('totalCount').innerText = "0";
+                document.getElementById('pendingCount').innerText = "0";
+                return;
+            }
+
+            dataArray.forEach((data, index) => {
+                const isPending = data.actionTaken === "Pending review" || !data.actionTaken || data.actionTaken.trim() === "";
+                if (isPending) pending++;
+
+                const card = document.createElement('div');
+                card.className = "bg-zinc-900 border border-zinc-800 p-5 rounded-xl shadow-xl space-y-4 relative transition hover:border-amber-600/20";
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-zinc-800 pb-2">
+                        <span class="text-sm font-mono font-bold text-amber-500">#${data.serialNo || (index + 1)}</span>
+                        <span class="text-[11px] font-mono text-zinc-500">${data.date}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs bg-zinc-950/40 p-2.5 rounded-lg border border-zinc-800/40">
+                        <div>
+                            <span class="text-[9px] uppercase font-bold text-amber-500 block mb-0.5">Plaintiff</span>
+                            <div class="font-bold text-zinc-200 truncate">${data.pName}</div>
+                            <div class="text-[10px] text-zinc-500">[${data.pAlliance}] ID: ${data.pID}</div>
+                        </div>
+                        <div class="border-l border-zinc-800 pl-3">
+                            <span class="text-[9px] uppercase font-bold text-red-400 block mb-0.5">Defendant</span>
+                            <div class="font-bold text-red-300 truncate">${data.dName}</div>
+                            <div class="text-[10px] text-zinc-500">[${data.dAlliance}] ID: ${data.dID}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-0.5">Violation Type</span>
+                        <p class="text-xs text-amber-500/90 font-medium">${data.violationType}</p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-0.5">Notes & Demands</span>
+                        <p class="text-xs text-zinc-300 bg-zinc-950/20 p-2 rounded border border-zinc-800/30 break-words">${data.notes || '-'}</p>
+                    </div>
+                    <div class="pt-2 border-t border-zinc-800/60 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">Evidence Link</span>
+                            <a href="${data.evidenceUrl}" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-amber-500 font-bold px-3 py-1 rounded text-[10px] border border-zinc-700">Open Proof</a>
+                        </div>
+                        <div class="space-y-1.5">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400 block">Verdict (Action Taken)</span>
+                            <div class="flex gap-2">
+                                <input type="text" id="input-${data.id}" value="${data.actionTaken || ''}" class="bg-zinc-950 border border-zinc-800 rounded p-2 text-xs w-full text-zinc-200 focus:outline-none focus:border-amber-600">
+                                <button onclick="updateAction('${data.id}')" class="bg-gradient-to-r from-amber-700 to-red-700 text-white font-bold px-4 py-2 rounded text-[10px] cursor-pointer">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            document.getElementById('totalCount').innerText = dataArray.length;
+            document.getElementById('pendingCount').innerText = pending;
+        }
+
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allComplaints.filter(c => 
+                (c.pName && c.pName.toLowerCase().includes(query)) || 
+                (c.pID && c.pID.toLowerCase().includes(query)) || 
+                (c.dName && c.dName.toLowerCase().includes(query)) || 
+                (c.dID && c.dID.toLowerCase().includes(query))
+            );
+            renderCards(filtered);
+        }
+
+        function sortCards() {
+            const order = document.getElementById('dateSort').value;
+            let sorted = [...allComplaints];
+            if(order === 'oldest') {
+                sorted.sort((a,b) => new Date(a.date) - new Date(b.date));
+            } else {
+                sorted.sort((a,b) => new Date(b.date) - new Date(a.date));
+            }
+            renderCards(sorted);
+        }
+
+        async function updateAction(id) {
+            const val = document.getElementById(`input-${id}`).value;
+            try {
+                await db.collection('complaints').doc(id).update({ actionTaken: val });
+                alert("Verdict updated successfully!");
+            } catch (e) {
+                alert("Error updating decision: " + e.message);
+            }
+        }
+
+        function exportToCSV() {
+            if(allComplaints.length === 0) return alert("No data available to export.");
+            let csvContent = "data:text/csv;charset=utf-8,Serial,Date,Plaintiff Name,Plaintiff ID,Plaintiff Alliance,Defendant Name,Defendant ID,Defendant Alliance,Violation,Notes,Evidence URL,Verdict\n";
+            
+            allComplaints.forEach(c => {
+                let row = [
+                    c.serialNo, c.date, `"${c.pName || ''}"`, `"${c.pID || ''}"`, `"${c.pAlliance || ''}"`,
+                    `"${c.dName || ''}"`, `"${c.dID || ''}"`, `"${c.dAlliance || ''}"`, `"${c.violationType || ''}"`,
+                    `"${c.notes || ''}"`, `"${c.evidenceUrl || ''}"`, `"${c.actionTaken || ''}"`
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Royal_Court_1269_Report.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
