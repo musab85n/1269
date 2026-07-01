@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Judge Courtroom - Admin Dashboard</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@3"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -12,18 +14,19 @@
     
     <style>
         body { background-color: #0b0b0e; color: #e4e4e7; }
+        .rule-card { background-color: rgba(24, 24, 27, 0.7); border: 1px solid rgba(63, 63, 70, 0.5); }
         #adminContent { display: none; }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 flex flex-col justify-center items-center">
 
-    <div id="loginScreen" class="w-full max-w-md bg-zinc-900 border border-zinc-800 p-8 rounded-xl shadow-2xl text-center space-y-6 my-auto">
-        <img src="court_banner.png" alt="The Royal Court" class="w-32 h-20 rounded border border-amber-600/30 object-cover shadow-md mx-auto">
+    <div id="loginScreen" class="w-full max-w-md bg-zinc-900 border border-zinc-800 p-8 rounded-xl shadow-2xl text-center space-y-6 my-auto" style="background-color: #18181b; border-color: #27272a;">
+        <img src="court_banner.png" alt="The Royal Court" class="w-32 h-20 rounded border border-amber-600/30 object-cover shadow-md mx-auto" style="border-color: rgba(217, 119, 6, 0.3);">
         <div>
-            <h2 class="text-xl font-bold tracking-wider text-amber-500 uppercase font-serif">Royal Court Authentication</h2>
-            <p class="text-zinc-400 text-xs mt-1">Sign in with your registered Gmail account to access files.</p>
+            <h2 class="text-xl font-bold tracking-wider text-amber-500 uppercase font-serif" style="color: #f59e0b;">Royal Court Authentication</h2>
+            <p class="text-gray-400 text-xs mt-1">Sign in with your registered Gmail account to access files.</p>
         </div>
-        <button onclick="signInWithGoogle()" class="w-full bg-white hover:bg-zinc-200 text-zinc-900 font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition cursor-pointer text-sm shadow-lg">
+        <button onclick="signInWithGoogle()" class="w-full bg-white hover:bg-gray-200 text-gray-900 font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition text-sm shadow-lg cursor-pointer">
             <svg class="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -35,39 +38,39 @@
     </div>
 
     <div id="adminContent" class="w-full max-w-6xl">
-        <div class="flex flex-col md:flex-row items-center justify-between border-b border-zinc-800 pb-6 mb-6 gap-4">
+        <div class="flex flex-col md:flex-row items-center justify-between border-b border-gray-800 pb-6 mb-6 gap-4" style="border-color: #27272a;">
             <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row w-full max-w-xl">
-                <img src="court_banner.png" alt="The Royal Court" class="w-24 h-16 rounded border border-amber-600/30 object-cover shadow-md">
+                <img src="court_banner.png" alt="The Royal Court" class="w-24 h-16 rounded border border-amber-600/30 object-cover shadow-md" style="border-color: rgba(217, 119, 6, 0.3);">
                 <div>
-                    <h1 class="text-xl font-bold tracking-wider text-amber-500 uppercase font-serif">Court Records Dashboard</h1>
-                    <p class="text-zinc-400 text-xs italic mt-0.5">Logged in as: <span id="judgeEmailDisplay" class="text-red-400 font-semibold font-mono">Loading...</span></p>
+                    <h1 class="text-xl font-bold tracking-wider text-amber-500 uppercase font-serif" style="color: #f59e0b;">Court Records Dashboard</h1>
+                    <p class="text-gray-400 text-xs italic mt-0.5">Logged in as: <span id="judgeEmailDisplay" class="text-red-400 font-semibold font-mono">Loading...</span></p>
                 </div>
             </div>
             
             <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-                <button onclick="exportToCSV()" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-4 rounded border border-emerald-600 transition cursor-pointer w-full sm:w-auto">
+                <button onclick="exportToCSV()" class="bg-green-800 hover:bg-green-700 text-white font-bold text-xs py-2 px-4 rounded border border-green-600 transition cursor-pointer w-full sm:w-auto">
                     📊 Export Full Report (CSV)
                 </button>
-                <button onclick="signOut()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-400 font-bold text-xs py-2 px-4 rounded border border-zinc-700 transition cursor-pointer w-full sm:w-auto">
+                <button onclick="signOut()" class="bg-gray-800 hover:bg-gray-700 text-gray-400 font-bold text-xs py-2 px-4 rounded border border-gray-700 transition cursor-pointer w-full sm:w-auto">
                     🚪 Logout
                 </button>
-                <div class="bg-zinc-900/50 border border-zinc-800 p-3 rounded-lg text-sm w-full sm:w-auto min-w-[150px]">
-                    <div class="flex justify-around text-xs text-zinc-300 gap-4">
-                        <span>Total: <strong class="text-amber-500 font-mono" id="totalCount">0</strong></span>
-                        <span>Pending: <strong class="text-red-400 font-mono" id="pendingCount">0</strong></span>
+                <div class="bg-gray-900 border border-gray-800 p-2.5 rounded-lg text-sm w-full sm:w-auto min-w-[160px]" style="background-color: #18181b; border-color: #27272a;">
+                    <div class="flex justify-around text-xs text-gray-300 gap-4">
+                        <span>Total: <strong class="text-amber-500 font-mono" id="totalCount" style="color: #f59e0b;">0</strong></span>
+                        <span>Pending: <strong class="text-red-400 font-mono" id="pendingCount" style="color: #f87171;">0</strong></span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="bg-zinc-900/80 border border-zinc-800 p-4 rounded-xl mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+        <div class="bg-gray-950 border border-gray-800 p-4 rounded-xl mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end" style="background-color: #18181b; border-color: #27272a;">
             <div class="sm:col-span-2">
-                <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Search Player Name or ID</label>
-                <input type="text" id="searchInput" oninput="filterCards()" placeholder="Type name or game ID to search..." class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-zinc-200">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Search Player Name or ID</label>
+                <input type="text" id="searchInput" oninput="filterCards()" placeholder="Type name or game ID to search..." class="w-full bg-black border border-gray-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-gray-200" style="background-color: #09090b; border-color: #27272a;">
             </div>
             <div>
-                <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Sort Timeline</label>
-                <select id="dateSort" onchange="sortCards()" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-zinc-200">
+                <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Sort Timeline</label>
+                <select id="dateSort" onchange="sortCards()" class="w-full bg-black border border-gray-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-gray-200" style="background-color: #09090b; border-color: #27272a;">
                     <option value="newest">Newest to Oldest</option>
                     <option value="oldest">Oldest to Newest</option>
                 </select>
@@ -83,8 +86,8 @@
         // 🔒 قائمة الحسابات المصرح لها بدخول الأدمن 🔒
         // ==========================================
         const ALLOWED_JUDGES = [
-            "musab85n@gmail.com", // ضع إيميلك الشخصي هنا بحروف صغيرة
-            "ladydahlington@gmail.com",
+            "your-email@gmail.com", 
+            "another-judge@gmail.com",
             "helper1269@gmail.com"
         ];
 
@@ -160,7 +163,7 @@
             let pending = 0;
 
             if(dataArray.length === 0) {
-                container.innerHTML = `<div class="text-center text-zinc-600 p-8 col-span-full">No active files matching query.</div>`;
+                container.innerHTML = `<div class="text-center text-gray-600 p-8 col-span-full">No active files matching query.</div>`;
                 document.getElementById('totalCount').innerText = "0";
                 document.getElementById('pendingCount').innerText = "0";
                 return;
@@ -171,43 +174,45 @@
                 if (isPending) pending++;
 
                 const card = document.createElement('div');
-                card.className = "bg-zinc-900 border border-zinc-800 p-5 rounded-xl shadow-xl space-y-4 relative transition hover:border-amber-600/20";
+                card.className = "rule-card p-5 rounded-xl space-y-4 relative transition hover:border-amber-600";
+                card.style.backgroundColor = "rgba(24, 24, 27, 0.7)";
+                card.style.borderColor = "rgba(63, 63, 70, 0.5)";
                 
                 card.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-zinc-800 pb-2">
-                        <span class="text-sm font-mono font-bold text-amber-500">#${data.serialNo || (index + 1)}</span>
-                        <span class="text-[11px] font-mono text-zinc-500">${data.date}</span>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2" style="border-color: #27272a;">
+                        <span class="text-sm font-mono font-bold text-amber-500" style="color: #f59e0b;">#${data.serialNo || (index + 1)}</span>
+                        <span class="text-[11px] font-mono text-gray-500">${data.date}</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 text-xs bg-zinc-950/40 p-2.5 rounded-lg border border-zinc-800/40">
+                    <div class="grid grid-cols-2 gap-2 text-xs p-2.5 rounded-lg border border-gray-800" style="background-color: #09090b; border-color: #27272a;">
                         <div>
-                            <span class="text-[9px] uppercase font-bold text-amber-500 block mb-0.5">Plaintiff</span>
-                            <div class="font-bold text-zinc-200 truncate">${data.pName}</div>
-                            <div class="text-[10px] text-zinc-500">[${data.pAlliance}] ID: ${data.pID}</div>
+                            <span class="text-[9px] uppercase font-bold text-amber-500 block mb-0.5" style="color: #f59e0b;">Plaintiff</span>
+                            <div class="font-bold text-gray-200 truncate">${data.pName}</div>
+                            <div class="text-[10px] text-gray-500">[${data.pAlliance}] ID: ${data.pID}</div>
                         </div>
-                        <div class="border-l border-zinc-800 pl-3">
-                            <span class="text-[9px] uppercase font-bold text-red-400 block mb-0.5">Defendant</span>
+                        <div class="border-l border-gray-800 pl-3" style="border-color: #27272a;">
+                            <span class="text-[9px] uppercase font-bold text-red-400 block mb-0.5" style="color: #f87171;">Defendant</span>
                             <div class="font-bold text-red-300 truncate">${data.dName}</div>
-                            <div class="text-[10px] text-zinc-500">[${data.dAlliance}] ID: ${data.dID}</div>
+                            <div class="text-[10px] text-gray-500">[${data.dAlliance}] ID: ${data.dID}</div>
                         </div>
                     </div>
                     <div>
-                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-0.5">Violation Type</span>
-                        <p class="text-xs text-amber-500/90 font-medium">${data.violationType}</p>
+                        <span class="text-[10px] uppercase font-bold text-gray-400 block mb-0.5">Violation Type</span>
+                        <p class="text-xs text-amber-500 font-medium" style="color: #f59e0b;">${data.violationType}</p>
                     </div>
                     <div>
-                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-0.5">Notes & Demands</span>
-                        <p class="text-xs text-zinc-300 bg-zinc-950/20 p-2 rounded border border-zinc-800/30 break-words">${data.notes || '-'}</p>
+                        <span class="text-[10px] uppercase font-bold text-gray-400 block mb-0.5">Notes & Demands</span>
+                        <p class="text-xs text-gray-300 p-2 rounded border border-gray-800 break-words" style="background-color: rgba(9, 9, 11, 0.4); border-color: #27272a;">${data.notes || '-'}</p>
                     </div>
-                    <div class="pt-2 border-t border-zinc-800/60 space-y-3">
+                    <div class="pt-2 border-t border-gray-800 space-y-3" style="border-color: #27272a;">
                         <div class="flex justify-between items-center">
-                            <span class="text-[10px] uppercase font-bold text-zinc-400">Evidence Link</span>
-                            <a href="${data.evidenceUrl}" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-amber-500 font-bold px-3 py-1 rounded text-[10px] border border-zinc-700">Open Proof</a>
+                            <span class="text-[10px] uppercase font-bold text-gray-400">Evidence Link</span>
+                            <a href="${data.evidenceUrl}" target="_blank" class="bg-gray-800 hover:bg-gray-700 text-amber-500 font-bold px-3 py-1 rounded text-[10px] border border-gray-700" style="color: #f59e0b; border-color: #27272a;">Open Proof</a>
                         </div>
                         <div class="space-y-1.5">
-                            <span class="text-[10px] uppercase font-bold text-zinc-400 block">Verdict (Action Taken)</span>
+                            <span class="text-[10px] uppercase font-bold text-gray-400 block">Verdict (Action Taken)</span>
                             <div class="flex gap-2">
-                                <input type="text" id="input-${data.id}" value="${data.actionTaken || ''}" class="bg-zinc-950 border border-zinc-800 rounded p-2 text-xs w-full text-zinc-200 focus:outline-none focus:border-amber-600">
-                                <button onclick="updateAction('${data.id}')" class="bg-gradient-to-r from-amber-700 to-red-700 text-white font-bold px-4 py-2 rounded text-[10px] cursor-pointer">Save</button>
+                                <input type="text" id="input-${data.id}" value="${data.actionTaken || ''}" class="bg-black border border-gray-800 rounded p-2 text-xs w-full text-gray-200 focus:outline-none focus:border-amber-600" style="background-color: #09090b; border-color: #27272a;">
+                                <button onclick="updateAction('${data.id}')" class="bg-gradient-to-r from-yellow-600 to-red-700 hover:from-yellow-500 hover:to-red-600 text-white font-bold px-4 py-2 rounded text-[10px] cursor-pointer" style="background-image: linear-gradient(to right, #b45309, #b91c1c);">Save</button>
                             </div>
                         </div>
                     </div>
