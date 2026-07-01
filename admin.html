@@ -3,97 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Royal Court 1269 - Submit Violation</title>
+    <title>Judge Courtroom - Admin Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
-        body { background-color: #0b0b0e; color: #e4e4e7; }
+        body { background-color: #0b0b0e; color: #e4e4e7; display: none; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
+<body class="min-h-screen p-4 md:p-8">
 
-    <div class="w-full max-w-4xl rounded-xl overflow-hidden border border-amber-600/30 shadow-2xl shadow-red-950/40 mb-6">
-        <img src="court_banner.png" alt="The Royal Court of Kingdom 1269" class="w-full h-auto object-cover">
-    </div>
-
-    <div class="mb-6 w-full max-w-2xl text-right">
-        <a href="rules.html" class="inline-flex items-center gap-2 bg-amber-950/40 hover:bg-amber-900/40 text-amber-500 text-xs font-bold px-4 py-2 rounded-lg border border-amber-700/30 transition">
-            📜 View Kingdom Rules & Laws (أنظمة وقوانين المملكة)
-        </a>
-    </div>
-
-    <div class="text-center mb-8 max-w-2xl px-4">
-        <h1 class="text-3xl font-extrabold tracking-wider text-amber-500 uppercase font-serif">The Royal Court Executive</h1>
-        <p class="text-zinc-400 mt-3 text-sm italic border-l-2 border-amber-600 pl-4 inline-block">
-            "Justice is not always serious, but order will be maintained with an iron fist."
-        </p>
-    </div>
-
-    <div class="w-full max-w-2xl bg-zinc-900/90 border border-zinc-800 p-6 rounded-xl shadow-xl backdrop-blur-sm">
-        <h2 class="text-lg font-semibold mb-6 text-amber-400/90 uppercase tracking-wide border-b border-zinc-800 pb-3">Submit New Violation Report</h2>
+    <div class="flex flex-col md:flex-row items-center justify-between border-b border-zinc-800 pb-6 mb-6 gap-4">
+        <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row w-full max-w-xl">
+            <img src="court_banner.png" alt="The Royal Court" class="w-24 h-16 rounded border border-amber-600/30 object-cover shadow-md">
+            <div>
+                <h1 class="text-xl font-bold tracking-wider text-amber-500 uppercase font-serif">Court Records Dashboard</h1>
+                <p class="text-zinc-400 text-xs italic mt-0.5">Logged in as: <span class="text-red-400 font-semibold font-mono">HELL (The Judge)</span></p>
+            </div>
+        </div>
         
-        <form id="violationForm" class="space-y-5">
-            <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Date of Violation</label>
-                <input type="date" required id="violationDate" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
-            </div>
-
-            <div class="bg-zinc-950/60 p-4 rounded-lg border border-zinc-800/60 space-y-3">
-                <span class="text-[10px] font-bold uppercase text-amber-500 tracking-wider">Plaintiff Info (Your Details)</span>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <input type="text" id="pName" placeholder="Player Name" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500 text-zinc-200">
-                    <input type="text" id="pAlliance" placeholder="Alliance Tag" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500 text-zinc-200">
-                    <input type="text" id="pID" placeholder="Game ID" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-amber-500 text-zinc-200">
-                </div>
-            </div>
-
-            <div class="bg-zinc-950/60 p-4 rounded-lg border border-zinc-800/60 space-y-3">
-                <span class="text-[10px] font-bold uppercase text-red-500 tracking-wider">Defendant Info (Accused)</span>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <input type="text" id="dName" placeholder="Accused Name" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-200">
-                    <input type="text" id="dAlliance" placeholder="Alliance Tag" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-200">
-                    <input type="text" id="dID" placeholder="Game ID" required class="bg-zinc-900 border border-zinc-800 rounded p-2 text-sm focus:outline-none focus:border-red-500 text-zinc-200">
-                </div>
-            </div>
-
-            <div>
-                <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Violation Type</label>
-                <select required id="violationType" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
-                    <option value="" disabled selected>Select the rule violated</option>
-                    <option value="Violation 1: Attacking/scouting a NAP alliance.">Violation 1: Attacking, scouting, or launching rallies against a NAP alliance or its academy alliance.</option>
-                    <option value="Violation 2: Attacking Kingdom members in Arena.">Violation 2: Attacking Kingdom members in Arena</option>
-                    <option value="Violation 3: Poaching members from a NAP alliance.">Violation 3: Poaching members from a NAP alliance.</option>
-                    <option value="Violation 4: Transferring top players illegally.">Violation 4: Transferring top players into an academy to gain an advantage in Outpost or Sanctuary battles.</option>
-                    <option value="Violation 5: Blocking expansion of NAP alliance.">Violation 5: Attacking or intentionally blocking the banners, Outposts, or territory expansion of a NAP alliance.</option>
-                    <option value="Violation 6: Harassment or threats.">Violation 6: Harassment, personal attacks, threats, or doxxing.</option>
-                    <option value="Violation 7: Other complaints.">Violation 7: Other complaints</option>
-                </select>
-            </div>
-
-            <div>
-                <div class="flex justify-between items-center mb-1">
-                    <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Additional Demands / Notes</label>
-                    <span id="charCount" class="text-xs text-zinc-500">0 / 300</span>
-                </div>
-                <textarea id="notes" maxlength="300" rows="3" placeholder="Enter your specific demands or notes here..." class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 resize-none text-zinc-300"></textarea>
-            </div>
-
-            <div>
-                <div class="flex justify-between items-center mb-1">
-                    <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Evidence Image URL</label>
-                    <a href="https://imgbb.com" target="_blank" class="text-[10px] font-bold text-amber-500 hover:underline">📸 أسهل طريقة: ارفع صورتك هنا وانسخ الرابط</a>
-                </div>
-                <input type="url" id="evidenceUrl" placeholder="https://i.ibb.co/screenshot.jpg" required class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
-            </div>
-
-            <button type="submit" class="w-full bg-gradient-to-r from-amber-700 to-red-700 hover:from-amber-600 hover:to-red-600 text-white font-bold py-3 px-4 rounded transition duration-200 uppercase tracking-wider text-xs cursor-pointer shadow-lg shadow-red-900/30">
-                File Complaint to The Court
+        <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            <button onclick="exportToCSV()" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-4 rounded border border-emerald-600 transition cursor-pointer w-full sm:w-auto">
+                📊 Export Full Report (CSV)
             </button>
-        </form>
+            <div class="bg-zinc-900/50 border border-zinc-800 p-3 rounded-lg text-sm w-full sm:w-auto min-w-[180px]">
+                <div class="flex justify-around text-xs text-zinc-300 gap-4">
+                    <span>Total: <strong class="text-amber-500 font-mono" id="totalCount">0</strong></span>
+                    <span>Pending: <strong class="text-red-400 font-mono" id="pendingCount">0</strong></span>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <div class="bg-zinc-900/80 border border-zinc-800 p-4 rounded-xl mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+        <div class="sm:col-span-2">
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Search Player Name or ID</label>
+            <input type="text" id="searchInput" oninput="filterCards()" placeholder="Type name or game ID to search..." class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-zinc-200">
+        </div>
+        <div>
+            <label class="block text-[10px] font-bold uppercase tracking-wider text-zinc-400 mb-1">Sort Timeline</label>
+            <select id="dateSort" onchange="sortCards()" class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-zinc-200">
+                <option value="newest">Newest to Oldest</option>
+                <option value="oldest">Oldest to Newest</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="recordsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        </div>
 
     <script>
+        // Password Security Verification Prompt
+        const pass = prompt("Enter The Judge Security Key to open Court Files:");
+        if (pass === "1269") {
+            document.body.style.display = "block";
+        } else {
+            alert("Unauthorized access! Access denied.");
+            window.location.href = "index.html";
+        }
+
         const firebaseConfig = {
             apiKey: "AIzaSyC5kSFhwskwBI60dPq1VsI2jdIJpWtMSMY",
             authDomain: "k1269-98ae8.firebaseapp.com",
@@ -105,48 +73,137 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        const textarea = document.getElementById('notes');
-        const charCount = document.getElementById('charCount');
-        textarea.addEventListener('input', () => {
-            charCount.textContent = `${textarea.value.length} / 300`;
+        let allComplaints = [];
+
+        db.collection('complaints').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
+            allComplaints = [];
+            snapshot.forEach(doc => {
+                let data = doc.data();
+                data.id = doc.id;
+                allComplaints.push(data);
+            });
+            renderCards(allComplaints);
         });
 
-        document.getElementById('violationForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = e.target.querySelector('button');
-            btn.disabled = true;
-            btn.innerText = "SUBMITTING TO THE ROYAL COURT...";
+        function renderCards(dataArray) {
+            const container = document.getElementById('recordsContainer');
+            container.innerHTML = "";
+            let total = 0, pending = 0;
 
-            try {
-                const snapshot = await db.collection('complaints').get();
-                const serialNo = snapshot.size + 1;
-
-                await db.collection('complaints').add({
-                    serialNo: serialNo,
-                    date: document.getElementById('violationDate').value,
-                    pName: document.getElementById('pName').value,
-                    pAlliance: document.getElementById('pAlliance').value,
-                    pID: document.getElementById('pID').value,
-                    dName: document.getElementById('dName').value,
-                    dAlliance: document.getElementById('dAlliance').value,
-                    dID: document.getElementById('dID').value,
-                    violationType: document.getElementById('violationType').value,
-                    notes: document.getElementById('notes').value,
-                    evidenceUrl: document.getElementById('evidenceUrl').value,
-                    actionTaken: "Pending review",
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                alert("Your violation report has been submitted successfully to The Royal Court!");
-                document.getElementById('violationForm').reset();
-                charCount.textContent = "0 / 300";
-            } catch (error) {
-                alert("Error sending report.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "File Complaint to The Court";
+            if(dataArray.length === 0) {
+                container.innerHTML = `<div class="text-center text-zinc-600 p-8 col-span-full">No active files matching query.</div>`;
             }
-        });
+
+            dataArray.forEach((data) => {
+                total++;
+                const isPending = data.actionTaken === "Pending review" || !data.actionTaken;
+                if (isPending) pending++;
+
+                const card = document.createElement('div');
+                card.className = "complaint-card bg-zinc-900 border border-zinc-800 p-5 rounded-xl shadow-xl space-y-4 relative transition hover:border-amber-600/20";
+                card.setAttribute('data-plaintiff', `${data.pName} ${data.pID}`);
+                card.setAttribute('data-defendant', `${data.dName} ${data.dID}`);
+                card.setAttribute('data-timestamp', data.date);
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-center border-b border-zinc-800 pb-2">
+                        <span class="text-sm font-mono font-bold text-amber-500">#${data.serialNo || total}</span>
+                        <span class="text-[11px] font-mono text-zinc-500">${data.date}</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 text-xs bg-zinc-950/40 p-2.5 rounded-lg border border-zinc-800/40">
+                        <div>
+                            <span class="text-[9px] uppercase font-bold text-amber-500 block mb-0.5">Plaintiff</span>
+                            <div class="font-bold text-zinc-200 truncate">${data.pName}</div>
+                            <div class="text-[10px] text-zinc-500">[${data.pAlliance}] ID: ${data.pID}</div>
+                        </div>
+                        <div class="border-l border-zinc-800 pl-3">
+                            <span class="text-[9px] uppercase font-bold text-red-400 block mb-0.5">Defendant</span>
+                            <div class="font-bold text-red-300 truncate">${data.dName}</div>
+                            <div class="text-[10px] text-zinc-500">[${data.dAlliance}] ID: ${data.dID}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-0.5">Violation Type</span>
+                        <p class="text-xs text-amber-500/90 font-medium">${data.violationType}</p>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-zinc-400 block mb-0.5">Notes & Demands</span>
+                        <p class="text-xs text-zinc-300 bg-zinc-950/20 p-2 rounded border border-zinc-800/30 break-words">${data.notes || '-'}</p>
+                    </div>
+                    <div class="pt-2 border-t border-zinc-800/60 space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400">Evidence Link</span>
+                            <a href="${data.evidenceUrl}" target="_blank" class="bg-zinc-800 hover:bg-zinc-700 text-amber-500 font-bold px-3 py-1 rounded text-[10px] border border-zinc-700">Open Proof</a>
+                        </div>
+                        <div class="space-y-1.5">
+                            <span class="text-[10px] uppercase font-bold text-zinc-400 block">Verdict (Action Taken)</span>
+                            <div class="flex gap-2">
+                                <input type="text" id="input-${data.id}" value="${data.actionTaken || ''}" class="bg-zinc-950 border border-zinc-800 rounded p-2 text-xs w-full text-zinc-200 focus:outline-none focus:border-amber-600">
+                                <button onclick="updateAction('${data.id}')" class="bg-gradient-to-r from-amber-700 to-red-700 text-white font-bold px-4 py-2 rounded text-[10px] cursor-pointer">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            document.getElementById('totalCount').innerText = allComplaints.length;
+            document.getElementById('pendingCount').innerText = pending;
+        }
+
+        function filterCards() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allComplaints.filter(c => 
+                c.pName.toLowerCase().includes(query) || 
+                c.pID.toLowerCase().includes(query) || 
+                c.dName.toLowerCase().includes(query) || 
+                c.dID.toLowerCase().includes(query)
+            );
+            renderCards(filtered);
+        }
+
+        function sortCards() {
+            const order = document.getElementById('dateSort').value;
+            let sorted = [...allComplaints];
+            if(order === 'oldest') {
+                sorted.sort((a,b) => new Date(a.date) - new Date(b.date));
+            } else {
+                sorted.sort((a,b) => new Date(b.date) - new Date(a.date));
+            }
+            renderCards(sorted);
+        }
+
+        async function updateAction(id) {
+            const val = document.getElementById(`input-${id}`).value;
+            try {
+                await db.collection('complaints').doc(id).update({ actionTaken: val });
+                alert("Verdict updated on cloud scroll!");
+            } catch (e) {
+                alert("Error updating decision.");
+            }
+        }
+
+        function exportToCSV() {
+            if(allComplaints.length === 0) return alert("No data available to export.");
+            let csvContent = "data:text/csv;charset=utf-8,Serial,Date,Plaintiff Name,Plaintiff ID,Plaintiff Alliance,Defendant Name,Defendant ID,Defendant Alliance,Violation,Notes,Evidence URL,Verdict\n";
+            
+            allComplaints.forEach(c => {
+                let row = [
+                    c.serialNo, c.date, `"${c.pName}"`, `"${c.pID}"`, `"${c.pAlliance}"`,
+                    `"${c.dName}"`, `"${c.dID}"`, `"${c.dAlliance}"`, `"${c.violationType}"`,
+                    `"${c.notes || ''}"`, `"${c.evidenceUrl}"`, `"${c.actionTaken || ''}"`
+                ].join(",");
+                csvContent += row + "\n";
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "Royal_Court_1269_Report.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 </html>
