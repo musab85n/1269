@@ -19,7 +19,7 @@
 
     <div class="mb-6 w-full max-w-2xl text-right">
         <a href="rules.html" class="inline-flex items-center gap-2 bg-amber-950/40 hover:bg-amber-900/40 text-amber-500 text-xs font-bold px-4 py-2 rounded-lg border border-amber-700/30 transition">
-            📜 View Kingdom Rules & Laws (أنظمة وقوانين المملكة)
+            📜 View Kingdom Rules & Laws
         </a>
     </div>
 
@@ -67,7 +67,7 @@
                     <option value="Violation 4: Transferring top players illegally.">Violation 4: Transferring top players into an academy to gain an advantage in Outpost or Sanctuary battles.</option>
                     <option value="Violation 5: Blocking expansion of NAP alliance.">Violation 5: Attacking or intentionally blocking the banners, Outposts, or territory expansion of a NAP alliance.</option>
                     <option value="Violation 6: Harassment or threats.">Violation 6: Harassment, personal attacks, threats, or doxxing.</option>
-                    <option value="Violation 7: Other complaints.">Violation 7: Other complaints</option>
+                    <option value="Violation 7: Other complaints.">Violation 7: Other complaints & miscellaneous disputes</option>
                 </select>
             </div>
 
@@ -82,7 +82,7 @@
             <div>
                 <div class="flex justify-between items-center mb-1">
                     <label class="block text-[11px] font-bold uppercase tracking-wider text-zinc-400">Evidence Image URL</label>
-                    <a href="https://imgbb.com" target="_blank" class="text-[10px] font-bold text-amber-500 hover:underline">📸 أسهل طريقة: ارفع صورتك هنا وانسخ الرابط</a>
+                    <a href="https://imgbb.com" target="_blank" class="text-[10px] font-bold text-amber-500 hover:underline">📸 Quick upload: Upload screen here and copy link</a>
                 </div>
                 <input type="url" id="evidenceUrl" placeholder="https://i.ibb.co/screenshot.jpg" required class="w-full bg-zinc-950 border border-zinc-800 rounded p-2.5 text-sm focus:outline-none focus:border-amber-500 text-zinc-300">
             </div>
@@ -108,45 +108,4 @@
         const textarea = document.getElementById('notes');
         const charCount = document.getElementById('charCount');
         textarea.addEventListener('input', () => {
-            charCount.textContent = `${textarea.value.length} / 300`;
-        });
-
-        document.getElementById('violationForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = e.target.querySelector('button');
-            btn.disabled = true;
-            btn.innerText = "SUBMITTING TO THE ROYAL COURT...";
-
-            try {
-                const snapshot = await db.collection('complaints').get();
-                const serialNo = snapshot.size + 1;
-
-                await db.collection('complaints').add({
-                    serialNo: serialNo,
-                    date: document.getElementById('violationDate').value,
-                    pName: document.getElementById('pName').value,
-                    pAlliance: document.getElementById('pAlliance').value,
-                    pID: document.getElementById('pID').value,
-                    dName: document.getElementById('dName').value,
-                    dAlliance: document.getElementById('dAlliance').value,
-                    dID: document.getElementById('dID').value,
-                    violationType: document.getElementById('violationType').value,
-                    notes: document.getElementById('notes').value,
-                    evidenceUrl: document.getElementById('evidenceUrl').value,
-                    actionTaken: "Pending review",
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                alert("Your violation report has been submitted successfully to The Royal Court!");
-                document.getElementById('violationForm').reset();
-                charCount.textContent = "0 / 300";
-            } catch (error) {
-                alert("Error sending report.");
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "File Complaint to The Court";
-            }
-        });
-    </script>
-</body>
-</html>
+            charCount.textContent = `${textarea.value.length} / 30
