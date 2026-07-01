@@ -3,63 +3,377 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kingdom 1269 - Rules & Regulations</title>
+    <title>Kingdom 1269 - Codex of Law & Protocols</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body { background-color: #0b0b0e; color: #e4e4e7; }
+        .rule-card { background-color: rgba(24, 24, 27, 0.6); border: 1px solid rgba(63, 63, 70, 0.4); }
+        .punishment-box { background-color: rgba(127, 29, 29, 0.2); border-left: 3px solid #ef4444; }
+        .king-box { background-color: rgba(251, 191, 36, 0.05); border-left: 3px solid #f59e0b; }
+        .kvk-box { background-color: rgba(29, 78, 216, 0.1); border-left: 3px solid #3b82f6; }
+        .score-box { background-color: rgba(16, 185, 129, 0.05); border-left: 3px solid #10b981; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
+<body class="min-h-screen p-4 md:p-8 flex flex-col items-center">
 
-    <div class="w-full max-w-3xl bg-zinc-900 border border-zinc-800 p-6 rounded-xl shadow-2xl space-y-6">
+    <!-- Main Container -->
+    <div class="w-full max-w-4xl space-y-8 mb-12">
         
-        <div class="text-center border-b border-zinc-800 pb-4">
-            <h1 class="text-2xl font-extrabold text-amber-500 uppercase font-serif tracking-wider">Kingdom 1269 Codex of Law</h1>
-            <p class="text-xs text-zinc-500 uppercase mt-1">Official Executive Regulations & Violations Grid</p>
+        <!-- Header -->
+        <div class="text-center border-b border-zinc-800 pb-6">
+            <h1 class="text-3xl font-extrabold text-amber-500 uppercase font-serif tracking-wider">Kingdom 1269 Codex of Law</h1>
+            <p class="text-xs text-zinc-500 uppercase mt-1.5 tracking-widest">Official Executive Regulations & Court Protocols</p>
+            <div class="mt-4">
+                <a href="index.html" class="inline-block bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-bold text-[11px] uppercase tracking-wider py-2 px-5 rounded-lg border border-zinc-700 transition">
+                    ⬅️ Back to Submit Complaint
+                </a>
+            </div>
         </div>
 
+        <!-- SECTION 1: NAP RULES -->
         <div class="space-y-4">
-            <div class="p-4 bg-zinc-950/50 border-l-4 border-amber-600 rounded-r-lg">
-                <h3 class="text-sm font-bold text-amber-400">Violation 1</h3>
-                <p class="text-xs text-zinc-300 mt-1">Attacking, scouting, or launching rallies against a NAP alliance or its academy alliance.</p>
+            <h2 class="text-xl font-bold text-amber-500 font-serif border-b border-amber-600/20 pb-2 uppercase tracking-wide">⚔️ NAP Rules</h2>
+            
+            <!-- Rule 1 -->
+            <div class="rule-card p-5 rounded-xl space-y-2">
+                <h3 class="text-sm font-bold text-zinc-100">1. No Attacks on NAP Alliances</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed">No city attacks, scouting, or rallies against any NAP alliance or their academy alliances.</p>
+                <div class="punishment-box p-3 rounded text-xs mt-2 text-zinc-300">
+                    <strong class="text-red-400 block mb-1">Punishment:</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-zinc-400">
+                        <li>The attacker must allow the victim to attack their empty city to recover lost resources.</li>
+                        <li>Compensation must be witnessed by an Alliance R4/R5.</li>
+                        <li>Additional punishment may be imposed by NAP leadership depending on the severity of the violation.</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="p-4 bg-zinc-950/50 border-l-4 border-amber-600 rounded-r-lg">
-                <h3 class="text-sm font-bold text-amber-400">Violation 2</h3>
-                <p class="text-xs text-zinc-300 mt-1">Attacking Kingdom members in Arena.</p>
+            <!-- Rule 2 -->
+            <div class="rule-card p-5 rounded-xl space-y-2">
+                <h3 class="text-sm font-bold text-zinc-100">2. No Poaching</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed">Poaching members from NAP alliances is prohibited. A respectful invitation (without threats, deception, or repeated pressure) will not be considered poaching. Poaching complaints must be reported within <strong class="text-amber-500 font-mono">5 days</strong> of the incident.</p>
+                <div class="p-3 bg-zinc-950/40 rounded text-xs text-zinc-400 border border-zinc-800">
+                    <span class="text-blue-400 font-bold block mb-0.5">💡 Exception:</span>
+                    Temporary player transfers for KvK are allowed after informing the NAP group in advance.
+                </div>
+                <div class="punishment-box p-3 rounded text-xs text-zinc-400">
+                    <strong class="text-red-400 block mb-0.5">Punishment:</strong> To be determined by NAP leadership based on the circumstances.
+                </div>
             </div>
 
-            <div class="p-4 bg-zinc-950/50 border-l-4 border-amber-600 rounded-r-lg">
-                <h3 class="text-sm font-bold text-amber-400">Violation 3</h3>
-                <p class="text-xs text-zinc-300 mt-1">Poaching members from a NAP alliance.</p>
+            <!-- Rule 3 -->
+            <div class="rule-card p-5 rounded-xl space-y-2">
+                <h3 class="text-sm font-bold text-zinc-100">3. Academy Alliances</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed">Each NAP alliance may have <strong>one farm/academy alliance</strong>. Main alliances may not interfere in academy outpost or sanctuary battles by transferring top players into the academy for the purpose of gaining an advantage.</p>
+                <div class="punishment-box p-3 rounded text-xs text-zinc-400">
+                    <strong class="text-red-400 block mb-0.5">Punishment:</strong> If an academy captures a sanctuary through such interference, the main alliance will forfeit its right to that sanctuary during the next sanctuary cycle.
+                </div>
             </div>
 
-            <div class="p-4 bg-zinc-950/50 border-l-4 border-amber-600 rounded-r-lg">
-                <h3 class="text-sm font-bold text-amber-400">Violation 4</h3>
-                <p class="text-xs text-zinc-300 mt-1">Transferring top players into an academy to gain an advantage in Outpost or Sanctuary battles.</p>
+            <!-- Rule 4 -->
+            <div class="rule-card p-5 rounded-xl space-y-2">
+                <h3 class="text-sm font-bold text-zinc-100">4. Banner Blocking</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed">Attacking or intentionally blocking the banners of a NAP alliance is prohibited.</p>
+                <div class="punishment-box p-3 rounded text-xs text-zinc-400">
+                    <strong class="text-red-400 block mb-0.5">Punishment:</strong> Any banner intentionally blocking an outpost or territory expansion will be removed, either by the responsible alliance's R4/R5 or through NAP-approved destruction.
+                </div>
             </div>
 
-            <div class="p-4 bg-zinc-950/50 border-l-4 border-amber-600 rounded-r-lg">
-                <h3 class="text-sm font-bold text-amber-400">Violation 5</h3>
-                <p class="text-xs text-zinc-300 mt-1">Attacking or intentionally blocking the banners, Outposts, or territory expansion of a NAP alliance.</p>
+            <!-- Rule 5 -->
+            <div class="rule-card p-5 rounded-xl space-y-2">
+                <h3 class="text-sm font-bold text-zinc-100">5. Harassment & Doxxing</h3>
+                <p class="text-xs text-zinc-400 leading-relaxed">Harassment, personal attacks, threats, and doxxing are strictly prohibited.</p>
+                <div class="punishment-box p-3 rounded text-xs text-zinc-400">
+                    <strong class="text-red-400 block mb-1">Punishment:</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-zinc-400">
+                        <li>Permanent removal from NAP protection and alliances.</li>
+                        <li>Additional actions may be determined by NAP leadership.</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="p-4 bg-zinc-950/50 border-l-4 border-amber-600 rounded-r-lg">
-                <h3 class="text-sm font-bold text-amber-400">Violation 6</h3>
-                <p class="text-xs text-zinc-300 mt-1">Harassment, personal attacks, threats, or doxxing.</p>
-            </div>
-
-            <div class="p-4 bg-zinc-950/50 border-l-4 border-amber-600 rounded-r-lg">
-                <h3 class="text-sm font-bold text-amber-400">Violation 7</h3>
-                <p class="text-xs text-zinc-300 mt-1">Other complaints & miscellaneous disputes requiring Royal adjudication.</p>
+            <!-- Rule 6 -->
+            <div class="rule-card p-4 rounded-xl text-xs text-zinc-400 italic">
+                <strong class="text-zinc-300 not-italic block mb-0.5">6. Enforcement</strong>
+                NAP leadership reserves the right to investigate incidents and issue additional penalties when necessary to maintain fairness and cooperation among all member alliances.
             </div>
         </div>
 
-        <div class="pt-4 border-t border-zinc-800 text-center">
-            <a href="index.html" class="bg-amber-700 hover:bg-amber-600 text-white font-bold text-xs py-2,5 px-6 rounded transition uppercase tracking-wider">
+        <!-- SECTION 2: KING'S RESPONSIBILITIES -->
+        <div class="space-y-4 pt-4">
+            <h2 class="text-xl font-bold text-amber-500 font-serif border-b border-amber-600/20 pb-2 uppercase tracking-wide">👑 King's Responsibilities</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="king-box p-4 rounded-xl space-y-1 bg-zinc-900/40 border border-zinc-800">
+                    <h3 class="text-xs font-bold uppercase text-amber-400">1. Appointments</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">All kingdom appointments, except <strong>Minister of Justice</strong>, will be available to all NAP members through an application-based process. The King and appointed officers ensure fair and efficient distribution.</p>
+                </div>
+
+                <div class="king-box p-4 rounded-xl space-y-1 bg-zinc-900/40 border border-zinc-800">
+                    <h3 class="text-xs font-bold uppercase text-amber-400">2. Minister of Justice</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">The <strong>Minister of Justice</strong> position will be used to enable automatic appointments. This ensures members of the <strong>NAP 5 alliances</strong> receive requested titles automatically.</p>
+                </div>
+
+                <div class="king-box p-4 rounded-xl space-y-1 bg-zinc-900/40 border border-zinc-800">
+                    <h3 class="text-xs font-bold uppercase text-amber-400">3. State Buffs</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">During events, the King must activate appropriate <strong>King Skills (State Buffs)</strong>: Troop training, Construction, Research, and Combat. Must be activated in a timely manner.</p>
+                </div>
+
+                <div class="king-box p-4 rounded-xl space-y-1 bg-zinc-900/40 border border-zinc-800">
+                    <h3 class="text-xs font-bold uppercase text-amber-400">4. Kingdom First</h3>
+                    <p class="text-xs text-zinc-400 leading-relaxed">The King is expected to act in the best interest of the kingdom as a whole, ensuring fairness, cooperation, and equal opportunities for all NAP alliances.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: KVK PREPARATION PROTOCOL -->
+        <div class="space-y-4 pt-4">
+            <h2 class="text-xl font-bold text-amber-500 font-serif border-b border-amber-600/20 pb-2 uppercase tracking-wide">🏆 KvK Prep & Battle Day Protocol</h2>
+            
+            <div class="space-y-3 bg-zinc-900/40 border border-zinc-800 p-5 rounded-xl">
+                <p class="text-xs text-zinc-400 mb-4 italic">To maximize kingdom growth and readiness during the KvK preparation phase, actions must align with the following schedule:</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="kvk-box p-3 rounded-lg">
+                        <span class="font-bold text-blue-400 block">Day 1 - Construction Day</span>
+                        <ul class="mt-1 space-y-0.5 text-[11px] text-zinc-400">
+                            <li>• <strong class="text-zinc-300">Skill:</strong> Ground Works</li>
+                            <li>• <strong class="text-zinc-300">Title:</strong> Chief Minister</li>
+                            <li>• Activate Pet Buff & Double Time Decree</li>
+                        </ul>
+                    </div>
+
+                    <div class="kvk-box p-3 rounded-lg">
+                        <span class="font-bold text-blue-400 block">Day 2 – Research Day</span>
+                        <ul class="mt-1 space-y-0.5 text-[11px] text-zinc-400">
+                            <li>• <strong class="text-zinc-300">Skill:</strong> Fresh Ideas</li>
+                            <li>• <strong class="text-zinc-300">Title:</strong> Chief Minister</li>
+                        </ul>
+                    </div>
+
+                    <div class="kvk-box p-3 rounded-lg">
+                        <span class="font-bold text-blue-400 block">Day 4 – Troop Training Day</span>
+                        <ul class="mt-1 space-y-0.5 text-[11px] text-zinc-400">
+                            <li>• <strong class="text-zinc-300">Skill:</strong> Mobilize</li>
+                            <li>• <strong class="text-zinc-300">Title:</strong> Noble Advisor</li>
+                        </ul>
+                    </div>
+
+                    <div class="kvk-box p-3 rounded-lg border border-blue-500/20 bg-blue-950/20">
+                        <span class="font-bold text-amber-400 block">⚡ KvK Battle Day</span>
+                        <ul class="mt-1 space-y-0.5 text-[11px] text-zinc-400">
+                            <li>• <strong class="text-zinc-300">Time:</strong> 10:00 UTC</li>
+                            <li>• <strong class="text-zinc-300">Skill:</strong> Community Healing</li>
+                            <li>• Activate before battle for max strength.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-[11px] text-zinc-500 pt-2 border-t border-zinc-800/60 text-center">General Expectation: The King should announce skill activations in advance so players can fully prepare.</p>
+            </div>
+        </div>
+
+        <!-- SECTION 4: CASTLE JAIL & SENTENCING PROTOCOLS -->
+        <div class="space-y-4 pt-4">
+            <h2 class="text-xl font-bold text-amber-500 font-serif border-b border-amber-600/20 pb-2 uppercase tracking-wide">⚖️ Castle Jail Term Protocols</h2>
+            
+            <div class="bg-zinc-900/60 border border-zinc-800 p-5 rounded-xl space-y-5 text-xs">
+                <div>
+                    <span class="text-amber-400 font-bold uppercase block mb-0.5 text-[10px]">Objective</span>
+                    <p class="text-zinc-400 leading-relaxed">To maintain fairness, dignity, and order within the NAP. No player shall be placed in jail without following the procedures. The King & MOJ shall be added to the NAP group to coordinate effectively.</p>
+                </div>
+
+                <div class="p-3 bg-red-950/30 border border-red-900/40 rounded-lg text-zinc-300">
+                    <span class="text-red-400 font-bold block mb-0.5 uppercase text-[10px]">⚠️ Emergency Exception Clause</span>
+                    If the President believes immediate action is necessary because a player has gone rogue and poses an active threat to kingdom stability, the player may be jailed temporarily before the formal process begins, followed by an immediate NAP Council review.
+                </div>
+
+                <!-- Due Process Steps -->
+                <div class="space-y-2">
+                    <span class="text-amber-400 font-bold uppercase block text-[10px]">Due Process Workflow</span>
+                    <p class="text-[11px] text-zinc-500 italic">Players seeking action must first contact Alliance Leadership to raise it in the NAP Group.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2 text-center text-[11px]">
+                        <div class="p-2 bg-zinc-950 border border-zinc-800 rounded">
+                            <span class="text-amber-500 font-bold block">Step 1</span> Notification in NAP Group
+                        </div>
+                        <div class="p-2 bg-zinc-950 border border-zinc-800 rounded">
+                            <span class="text-amber-500 font-bold block">Step 2</span> The Indictment & Evidence
+                        </div>
+                        <div class="p-2 bg-zinc-950 border border-zinc-800 rounded">
+                            <span class="text-amber-500 font-bold block">Step 3</span> Right of Reply for Accused
+                        </div>
+                        <div class="p-2 bg-zinc-950 border border-zinc-800 rounded">
+                            <span class="text-amber-500 font-bold block">Step 4</span> Council Review & Vote
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sentencing Guidelines & Rogue Def -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-zinc-800">
+                    <div class="space-y-2">
+                        <span class="text-amber-500 font-bold uppercase block text-[10px]">⚖️ Sentencing Guidelines</span>
+                        <ul class="list-disc pl-4 space-y-1 text-[11px] text-zinc-400">
+                            <li><strong class="text-zinc-300">Jail Duration:</strong> Determined by the NAP Council based on the severity and frequency of the offense.</li>
+                            <li><strong class="text-zinc-300">Type of Jail Term:</strong> Specific conditions and enforcement measures shall be determined by the NAP Council.</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-2">
+                        <span class="text-red-400 font-bold uppercase block text-[10px]">🕵️ Definition of Rogue Behavior</span>
+                        <ul class="list-decimal pl-4 space-y-0.5 text-[11px] text-zinc-400">
+                            <li><strong class="text-zinc-300">Unjustified Aggression:</strong> Attacks without a valid cause.</li>
+                            <li><strong class="text-zinc-300">Agreement Violation:</strong> Attacking protected targets.</li>
+                            <li><strong class="text-zinc-300">Indiscriminate Rampage:</strong> Widespread swift attacks.</li>
+                            <li><strong class="text-zinc-300">Defiance:</strong> Ignoring direct stand-down orders.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Grounds for Imprisonment -->
+                <div class="space-y-2 pt-3 border-t border-zinc-800">
+                    <span class="text-red-400 font-bold uppercase block text-[10px]">⚖️ Grounds for Imprisonment</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] text-zinc-400">
+                        <div class="p-2.5 bg-zinc-950/50 rounded border border-zinc-800/60">
+                            <strong class="text-zinc-200 block mb-0.5">I. Harassment</strong> Language intended to intimidate, threaten, or harm mental well-being.
+                        </div>
+                        <div class="p-2.5 bg-zinc-950/50 rounded border border-zinc-800/60">
+                            <strong class="text-zinc-200 block mb-0.5">II. Malicious Defamation</strong> Knowingly spreading false accusations against an alliance.
+                        </div>
+                        <div class="p-2.5 bg-zinc-950/50 rounded border border-zinc-800/60">
+                            <strong class="text-zinc-200 block mb-0.5">III. Disruptive Behavior</strong> Provoking internal disputes or encouraging rebellion against leadership.
+                        </div>
+                        <div class="p-2.5 bg-zinc-950/50 rounded border border-zinc-800/60">
+                            <strong class="text-zinc-200 block mb-0.5">IV. Discriminatory Hate Speech</strong> Use of racial, ethnic, religious, or discriminatory slurs.
+                        </div>
+                        <div class="p-2.5 bg-zinc-950/50 rounded border border-zinc-800/60 sm:col-span-2">
+                            <strong class="text-zinc-200 block mb-0.5">V. Persistent Non-Compliance</strong> Repeated violations of NAP rules despite warnings or action.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-[10px] text-zinc-500 italic text-center pt-1">
+                    Guiding Principle: The purpose of imprisonment is to preserve kingdom stability and accountability, not to punish players unfairly.
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: ARENA AGREEMENT -->
+        <div class="space-y-4 pt-4">
+            <h2 class="text-xl font-bold text-amber-500 font-serif border-b border-amber-600/20 pb-2 uppercase tracking-wide">🏟️ Arena Agreement</h2>
+            <div class="bg-zinc-900/60 border border-zinc-800 p-5 rounded-xl space-y-4 text-xs">
+                <div>
+                    <span class="text-amber-400 font-bold uppercase block mb-0.5 text-[10px]">Objective</span>
+                    <p class="text-zinc-400 leading-relaxed">To help all members of the kingdom maximize Arena rankings and rewards through cooperation rather than internal competition.</p>
+                </div>
+
+                <div class="bg-zinc-950/50 border border-zinc-800 p-3 rounded-lg space-y-1.5 text-[11px]">
+                    <span class="text-zinc-200 font-bold block">Arena Rules:</span>
+                    <p class="text-zinc-400">• Players must <strong class="text-red-400">NOT attack members of their own kingdom</strong> in the Arena.</p>
+                    <p class="text-zinc-400">• If no external targets are available, <strong class="text-amber-400">refresh the Arena opponent list</strong> instead of attacking a fellow kingdom member.</p>
+                    <p class="text-zinc-400">• This applies across all NAP alliances and their academy alliances.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px]">
+                    <div class="p-3 bg-zinc-950/30 rounded border border-zinc-800">
+                        <strong class="text-amber-400 block mb-0.5">Reporting Violations</strong>
+                        If attacked, report the incident to your Alliance R4/R5. The matter will be raised with the offending alliance for resolution.
+                    </div>
+                    <div class="p-3 bg-red-950/10 rounded border border-red-900/30">
+                        <strong class="text-red-400 block mb-0.5">Enforcement Policy</strong>
+                        • <strong class="text-zinc-300">First offense:</strong> Warning from Alliance Leadership.<br>
+                        • <strong class="text-zinc-300">Repeated/Intentional:</strong> Action determined by NAP Council.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 6: KVK SCORING & ROTATIONS -->
+        <div class="space-y-4 pt-4">
+            <h2 class="text-xl font-bold text-amber-500 font-serif border-b border-amber-600/20 pb-2 uppercase tracking-wide">📊 KvK Scoring & Rotations Grid</h2>
+            <div class="bg-zinc-900/60 border border-zinc-800 p-5 rounded-xl space-y-5 text-xs">
+                
+                <!-- Basis & Math -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <span class="text-emerald-400 font-bold uppercase block text-[10px]">Scoring Basis</span>
+                        <p class="text-zinc-400 leading-relaxed text-[11px]">KvK Prep Phase scores are normalized to alliance power at the end of each event, accumulating through the Transfer Manager rotation cycle. This combined ranking serves as the official "KvK Ranking".</p>
+                    </div>
+                    <div class="score-box p-3 rounded-lg flex flex-col justify-center">
+                        <span class="text-emerald-400 font-bold block text-[10px] uppercase mb-1">Normalized Score Formula</span>
+                        <div class="font-mono text-zinc-200 text-center bg-zinc-950 p-2 rounded border border-zinc-800 text-[11px]">
+                            Normalized Score = (KvK Prep Score × 1000) ÷ Alliance Power
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rotation Protocols -->
+                <div class="space-y-2 pt-3 border-t border-zinc-800">
+                    <span class="text-amber-400 font-bold uppercase block text-[10px]">👑 Rotation Systems</span>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-[11px] text-zinc-400">
+                        <div class="p-3 bg-zinc-950 rounded border border-zinc-800">
+                            <strong class="text-zinc-200 block mb-0.5">High Kingships</strong> Rotated strictly based on the accumulated KvK Ranking. Does not count toward regular rotation.
+                        </div>
+                        <div class="p-3 bg-zinc-950 rounded border border-zinc-800">
+                            <strong class="text-zinc-200 block mb-0.5">Regular Castles</strong> Rotated among all NAP alliances following the baseline power rankings.
+                        </div>
+                        <div class="p-3 bg-zinc-950 rounded border border-zinc-800">
+                            <strong class="text-zinc-200 block mb-0.5">Sanctuary & Forts</strong> Selection priority order directly follows the latest updated KvK ranking.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transfer Manager -->
+                <div class="space-y-2 pt-3 border-t border-zinc-800">
+                    <span class="text-blue-400 font-bold uppercase block text-[10px]">🔄 Transfer Manager Rotation</span>
+                    <p class="text-[11px] text-zinc-400">Cycle duration is structured as <strong class="text-zinc-200 font-mono">NAP-1</strong> (e.g., NAP4 results in 3 rotations). Rotated based on KvK Ranking. Special invitations prioritized by ranking; unused invitations by Day 2 are reallocated by the KTC.</p>
+                </div>
+
+                <!-- Data Quota Table -->
+                <div class="space-y-2 pt-3 border-t border-zinc-800">
+                    <span class="text-emerald-400 font-bold uppercase block text-[10px]">📋 Transfer Quota Allocation</span>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-[11px] border border-zinc-800">
+                            <thead class="bg-zinc-950 text-zinc-400 uppercase text-[9px] tracking-wider">
+                                <tr>
+                                    <th class="p-2 border border-zinc-800">Rank</th>
+                                    <th class="p-2 border border-zinc-800 text-amber-500">Ordinary Tier</th>
+                                    <th class="p-2 border border-zinc-800 text-blue-400">Leading Tier</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-zinc-800 text-zinc-300">
+                                <tr>
+                                    <td class="p-2 border border-zinc-800 font-bold bg-zinc-950/40">1st</td>
+                                    <td class="p-2 border border-zinc-800">12 invitations, 8 open slots</td>
+                                    <td class="p-2 border border-zinc-800">8 invitations, 4 open slots</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border border-zinc-800 font-bold bg-zinc-950/40">2nd</td>
+                                    <td class="p-2 border border-zinc-800">10 invitations, 6 open slots</td>
+                                    <td class="p-2 border border-zinc-800">6 invitations, 3 open slots</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border border-zinc-800 font-bold bg-zinc-950/40">3rd</td>
+                                    <td class="p-2 border border-zinc-800">8 invitations, 4 open slots</td>
+                                    <td class="p-2 border border-zinc-800">4 invitations, 2 open slots</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-2 border border-zinc-800 font-bold bg-zinc-950/40">4th</td>
+                                    <td class="p-2 border border-zinc-800">5 invitations, 2 open slots</td>
+                                    <td class="p-2 border border-zinc-800">2 invitations, 1 open slot</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer Back Button -->
+        <div class="text-center pt-4 border-t border-zinc-800">
+            <a href="index.html" class="bg-gradient-to-r from-amber-700 to-red-700 hover:from-amber-600 hover:to-red-600 text-white font-bold py-2.5 px-6 rounded-lg text-xs uppercase tracking-wider transition shadow-lg shadow-red-950/20">
                 Back to File Complaint
             </a>
         </div>
+
     </div>
 
 </body>
