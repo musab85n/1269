@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
@@ -16,10 +17,29 @@
         body { background-color: #0b0b0e; color: #e4e4e7; }
         .rule-card { background-color: rgba(24, 24, 27, 0.7); border: 1px solid rgba(63, 63, 70, 0.5); }
         #adminContent { display: none; }
+
+        /* تنسيق خاص بالطباعة وتصدير الـ PDF لمنع المشاكل في الأيفون */
+        @media print {
+            body { background-color: #ffffff !important; color: #000000 !important; padding: 0 !important; }
+            #loginScreen, .no-print, button, select, input, .border-t, .space-y-1.5 { display: none !important; }
+            #adminContent { display: block !important; width: 100% !important; }
+            .rule-card { 
+                background-color: #ffffff !important; 
+                border: 1px solid #000000 !important; 
+                color: #000000 !important;
+                page-break-inside: avoid; 
+                margin-bottom: 20px !important;
+                padding: 15px !important;
+            }
+            .grid { display: block !important; }
+            .text-amber-500, .text-red-400, .text-red-300 { color: #000000 !important; font-weight: bold !important; }
+            input[type="text"] { border: none !important; background: transparent !important; color: #000000 !important; padding: 0 !important; }
+        }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 flex flex-col justify-center items-center">
 
+    <!-- 1. LOGIN SCREEN -->
     <div id="loginScreen" class="w-full max-w-md bg-zinc-900 border border-zinc-800 p-8 rounded-xl shadow-2xl text-center space-y-6 my-auto" style="background-color: #18181b; border-color: #27272a;">
         <img src="court_banner.png" alt="The Royal Court" class="w-32 h-20 rounded border border-amber-600/30 object-cover shadow-md mx-auto" style="border-color: rgba(217, 119, 6, 0.3);">
         <div>
@@ -37,19 +57,25 @@
         </button>
     </div>
 
+    <!-- 2. MAIN ADMIN CONTENT -->
     <div id="adminContent" class="w-full max-w-6xl">
+        <!-- Dashboard Header -->
         <div class="flex flex-col md:flex-row items-center justify-between border-b border-gray-800 pb-6 mb-6 gap-4" style="border-color: #27272a;">
             <div class="flex items-center gap-4 text-center md:text-left flex-col md:flex-row w-full max-w-xl">
-                <img src="court_banner.png" alt="The Royal Court" class="w-24 h-16 rounded border border-amber-600/30 object-cover shadow-md" style="border-color: rgba(217, 119, 6, 0.3);">
+                <img src="court_banner.png" alt="The Royal Court" class="w-24 h-16 rounded border border-amber-600/30 object-cover shadow-md no-print" style="border-color: rgba(217, 119, 6, 0.3);">
                 <div>
                     <h1 class="text-xl font-bold tracking-wider text-amber-500 uppercase font-serif" style="color: #f59e0b;">Court Records Dashboard</h1>
                     <p class="text-gray-400 text-xs italic mt-0.5">Logged in as: <span id="judgeEmailDisplay" class="text-red-400 font-semibold font-mono">Loading...</span></p>
                 </div>
             </div>
             
-            <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-                <button onclick="exportToCSV()" class="bg-green-800 hover:bg-green-700 text-white font-bold text-xs py-2 px-4 rounded border border-green-600 transition cursor-pointer w-full sm:w-auto">
-                    📊 Export Full Report (CSV)
+            <!-- Actions & Logout -->
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto no-print">
+                <button onclick="exportToPDF()" class="bg-emerald-800 hover:bg-emerald-700 text-white font-bold text-xs py-2 px-4 rounded border border-emerald-600 transition cursor-pointer w-full sm:w-auto">
+                    📄 Export to PDF
+                </button>
+                <button onclick="copyReportToClipboard()" class="bg-blue-800 hover:bg-blue-700 text-white font-bold text-xs py-2 px-4 rounded border border-blue-600 transition cursor-pointer w-full sm:w-auto">
+                    📋 Copy Text Report
                 </button>
                 <button onclick="signOut()" class="bg-gray-800 hover:bg-gray-700 text-gray-400 font-bold text-xs py-2 px-4 rounded border border-gray-700 transition cursor-pointer w-full sm:w-auto">
                     🚪 Logout
@@ -63,7 +89,8 @@
             </div>
         </div>
 
-        <div class="bg-gray-950 border border-gray-800 p-4 rounded-xl mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end" style="background-color: #18181b; border-color: #27272a;">
+        <!-- Filters & Search Toolbar -->
+        <div class="bg-gray-950 border border-gray-800 p-4 rounded-xl mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end no-print" style="background-color: #18181b; border-color: #27272a;">
             <div class="sm:col-span-2">
                 <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-400 mb-1">Search Player Name or ID</label>
                 <input type="text" id="searchInput" oninput="filterCards()" placeholder="Type name or game ID to search..." class="w-full bg-black border border-gray-800 rounded p-2.5 text-xs focus:outline-none focus:border-amber-500 text-gray-200" style="background-color: #09090b; border-color: #27272a;">
@@ -77,21 +104,19 @@
             </div>
         </div>
 
+        <!-- Cards Container -->
         <div id="recordsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            </div>
+            <!-- Live data injected here -->
+        </div>
     </div>
 
     <script>
-        // ==========================================
-        // 🔒 قائمة الحسابات المصرح لها بدخول الأدمن 🔒
-        // ==========================================
         const ALLOWED_JUDGES = [
-            "musab85n@gmail.com", 
-            "another-judge@gmail.com",
-            "helper1269@gmail.com"
+            "musab85n@gmail.com",
+            "helper1269@gmail.com",
+            "your-email@gmail.com"
         ];
 
-        // Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyC5kSFhwskwBI60dPq1VsI2jdIJpWtMSMY",
             authDomain: "k1269-98ae8.firebaseapp.com",
@@ -106,7 +131,6 @@
 
         let allComplaints = [];
 
-        // مراقبة حالة تسجيل الدخول تلقائياً
         auth.onAuthStateChanged((user) => {
             if (user) {
                 if (ALLOWED_JUDGES.includes(user.email.toLowerCase())) {
@@ -114,10 +138,9 @@
                     document.getElementById('adminContent').style.display = 'block';
                     document.body.className = "min-h-screen p-4 md:p-8 flex flex-col justify-start items-center";
                     document.getElementById('judgeEmailDisplay').innerText = user.email;
-                    
                     loadLiveRecords();
                 } else {
-                    alert("Access Denied:Go to Hell *Your Google account (" + user.email + ") is not authorized as a Judge!");
+                    alert("Access Denied:Go to Hell ،Your Google account (" + user.email + ") is not authorized as a Judge!");
                     auth.signOut();
                 }
             } else {
@@ -127,7 +150,6 @@
             }
         });
 
-        // تسجيل الدخول بواسطة جوجل
         function signInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider).catch((error) => {
@@ -135,14 +157,12 @@
             });
         }
 
-        // تسجيل الخروج
         function signOut() {
             auth.signOut().then(() => {
                 window.location.reload();
             });
         }
 
-        // جلب البيانات من الداتابيز
         function loadLiveRecords() {
             db.collection('complaints').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
                 allComplaints = [];
@@ -152,8 +172,6 @@
                     allComplaints.push(data);
                 });
                 renderCards(allComplaints);
-            }, (error) => {
-                console.error("Firestore error:", error);
             });
         }
 
@@ -175,23 +193,21 @@
 
                 const card = document.createElement('div');
                 card.className = "rule-card p-5 rounded-xl space-y-4 relative transition hover:border-amber-600";
-                card.style.backgroundColor = "rgba(24, 24, 27, 0.7)";
-                card.style.borderColor = "rgba(63, 63, 70, 0.5)";
                 
                 card.innerHTML = `
-                    <div class="flex justify-between items-center border-b border-gray-800 pb-2" style="border-color: #27272a;">
-                        <span class="text-sm font-mono font-bold text-amber-500" style="color: #f59e0b;">#${data.serialNo || (index + 1)}</span>
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2 print:border-black" style="border-color: #27272a;">
+                        <span class="text-sm font-mono font-bold text-amber-500" style="color: #f59e0b;">#${data.serialNo || (dataArray.length - index)}</span>
                         <span class="text-[11px] font-mono text-gray-500">${data.date}</span>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 text-xs p-2.5 rounded-lg border border-gray-800" style="background-color: #09090b; border-color: #27272a;">
+                    <div class="grid grid-cols-2 gap-2 text-xs p-2.5 rounded-lg border border-gray-800 print:border-black" style="background-color: #09090b; border-color: #27272a;">
                         <div>
                             <span class="text-[9px] uppercase font-bold text-amber-500 block mb-0.5" style="color: #f59e0b;">Plaintiff</span>
-                            <div class="font-bold text-gray-200 truncate">${data.pName}</div>
+                            <div class="font-bold text-gray-200 print:text-black truncate">${data.pName}</div>
                             <div class="text-[10px] text-gray-500">[${data.pAlliance}] ID: ${data.pID}</div>
                         </div>
-                        <div class="border-l border-gray-800 pl-3" style="border-color: #27272a;">
+                        <div class="border-l border-gray-800 pl-3 print:border-black" style="border-color: #27272a;">
                             <span class="text-[9px] uppercase font-bold text-red-400 block mb-0.5" style="color: #f87171;">Defendant</span>
-                            <div class="font-bold text-red-300 truncate">${data.dName}</div>
+                            <div class="font-bold text-red-300 print:text-black truncate">${data.dName}</div>
                             <div class="text-[10px] text-gray-500">[${data.dAlliance}] ID: ${data.dID}</div>
                         </div>
                     </div>
@@ -201,18 +217,19 @@
                     </div>
                     <div>
                         <span class="text-[10px] uppercase font-bold text-gray-400 block mb-0.5">Notes & Demands</span>
-                        <p class="text-xs text-gray-300 p-2 rounded border border-gray-800 break-words" style="background-color: rgba(9, 9, 11, 0.4); border-color: #27272a;">${data.notes || '-'}</p>
+                        <p class="text-xs text-gray-300 print:text-black p-2 rounded border border-gray-800 print:border-black break-words" style="background-color: rgba(9, 9, 11, 0.4); border-color: #27272a;">${data.notes || '-'}</p>
                     </div>
-                    <div class="pt-2 border-t border-gray-800 space-y-3" style="border-color: #27272a;">
+                    <div class="pt-2 border-t border-gray-800 space-y-3 print:border-black" style="border-color: #27272a;">
                         <div class="flex justify-between items-center">
                             <span class="text-[10px] uppercase font-bold text-gray-400">Evidence Link</span>
-                            <a href="${data.evidenceUrl}" target="_blank" class="bg-gray-800 hover:bg-gray-700 text-amber-500 font-bold px-3 py-1 rounded text-[10px] border border-gray-700" style="color: #f59e0b; border-color: #27272a;">Open Proof</a>
+                            <a href="${data.evidenceUrl}" target="_blank" class="bg-gray-800 hover:bg-gray-700 text-amber-500 font-bold px-3 py-1 rounded text-[10px] border border-gray-700 no-print" style="color: #f59e0b; border-color: #27272a;">Open Proof</a>
+                            <span class="text-[10px] text-gray-600 hidden print:inline-block break-all">${data.evidenceUrl}</span>
                         </div>
                         <div class="space-y-1.5">
                             <span class="text-[10px] uppercase font-bold text-gray-400 block">Verdict (Action Taken)</span>
                             <div class="flex gap-2">
-                                <input type="text" id="input-${data.id}" value="${data.actionTaken || ''}" class="bg-black border border-gray-800 rounded p-2 text-xs w-full text-gray-200 focus:outline-none focus:border-amber-600" style="background-color: #09090b; border-color: #27272a;">
-                                <button onclick="updateAction('${data.id}')" class="bg-gradient-to-r from-yellow-600 to-red-700 hover:from-yellow-500 hover:to-red-600 text-white font-bold px-4 py-2 rounded text-[10px] cursor-pointer" style="background-image: linear-gradient(to right, #b45309, #b91c1c);">Save</button>
+                                <input type="text" id="input-${data.id}" value="${data.actionTaken || ''}" class="bg-black border border-gray-800 rounded p-2 text-xs w-full text-gray-200 print:text-black focus:outline-none focus:border-amber-600" style="background-color: #09090b; border-color: #27272a;">
+                                <button onclick="updateAction('${data.id}')" class="bg-gradient-to-r from-yellow-600 to-red-700 hover:from-yellow-500 hover:to-red-600 text-white font-bold px-4 py-2 rounded text-[10px] cursor-pointer no-print" style="background-image: linear-gradient(to right, #b45309, #b91c1c);">Save</button>
                             </div>
                         </div>
                     </div>
@@ -256,26 +273,32 @@
             }
         }
 
-        function exportToCSV() {
-            if(allComplaints.length === 0) return alert("No data available to export.");
-            let csvContent = "data:text/csv;charset=utf-8,Serial,Date,Plaintiff Name,Plaintiff ID,Plaintiff Alliance,Defendant Name,Defendant ID,Defendant Alliance,Violation,Notes,Evidence URL,Verdict\n";
-            
-            allComplaints.forEach(c => {
-                let row = [
-                    c.serialNo, c.date, `"${c.pName || ''}"`, `"${c.pID || ''}"`, `"${c.pAlliance || ''}"`,
-                    `"${c.dName || ''}"`, `"${c.dID || ''}"`, `"${c.dAlliance || ''}"`, `"${c.violationType || ''}"`,
-                    `"${c.notes || ''}"`, `"${c.evidenceUrl || ''}"`, `"${c.actionTaken || ''}"`
-                ].join(",");
-                csvContent += row + "\n";
+        function copyReportToClipboard() {
+            if(allComplaints.length === 0) return alert("No reports available to copy.");
+            let textReport = "📜 🏛️ ROYAL COURT 1269 REPORT 🏛️ 📜\n\n";
+            allComplaints.forEach((c, index) => {
+                let serial = c.serialNo || (allComplaints.length - index);
+                textReport += `⚖️ Case #${serial} [${c.date || ''}]\n`;
+                textReport += `👤 Plaintiff: ${c.pName || ''} [${c.pAlliance || ''}] ID: ${c.pID || ''}\n`;
+                textReport += `🔴 Accused: ${c.dName || ''} [${c.dAlliance || ''}] ID: ${c.dID || ''}\n`;
+                textReport += `⚠️ Violation: ${c.violationType || ''}\n`;
+                textReport += `💬 Notes: ${c.notes || '-'}\n`;
+                textReport += `📸 Proof: ${c.evidenceUrl || ''}\n`;
+                textReport += `📢 Verdict: ${c.actionTaken || 'Pending review'}\n`;
+                textReport += `---------------------------------------\n`;
             });
 
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "Royal_Court_1269_Report.csv");
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            navigator.clipboard.writeText(textReport).then(() => {
+                alert("👍 Report copied to clipboard successfully! Just paste it anywhere in Discord or KingShot.");
+            }).catch(err => {
+                alert("Could not copy text report: " + err);
+            });
+        }
+
+        // 📄 دالة تصدير الـ PDF المتوافقة تماماً مع أجهزة iOS / iPhone
+        function exportToPDF() {
+            if(allComplaints.length === 0) return alert("No records to export.");
+            window.print();
         }
     </script>
 </body>
