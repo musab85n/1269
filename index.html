@@ -30,7 +30,7 @@
         </p>
     </div>
 
-    <div class="w-full max-w-2xl bg-zinc-900/90 border border-zinc-800 p-6 rounded-xl shadow-xl backdrop-blur-sm">
+    <div class="w-full max-w-2xl bg-zinc-900/90 border border-zinc-800 p-6 rounded-xl shadow-xl backdrop-blur-sm mb-8">
         <h2 class="text-lg font-semibold mb-6 text-amber-400/90 uppercase tracking-wide border-b border-zinc-800 pb-3">Submit New Violation Report</h2>
         
         <form id="violationForm" class="space-y-5">
@@ -93,6 +93,15 @@
         </form>
     </div>
 
+    <div class="w-full max-w-2xl text-center border-t border-zinc-800/60 pt-4 flex flex-col items-center gap-3 mb-8">
+        <a href="admin.html" class="text-[10px] uppercase font-bold tracking-widest text-zinc-500 hover:text-amber-500 transition px-3 py-1.5 border border-zinc-800 hover:border-amber-600/30 rounded-lg bg-zinc-900/40">
+            🔐 Judge Access (Admin)
+        </a>
+        <div class="text-[10px] tracking-widest font-mono text-zinc-600 uppercase">
+            Designed by Hell
+        </div>
+    </div>
+
     <script>
         const firebaseConfig = {
             apiKey: "AIzaSyC5kSFhwskwBI60dPq1VsI2jdIJpWtMSMY",
@@ -108,4 +117,45 @@
         const textarea = document.getElementById('notes');
         const charCount = document.getElementById('charCount');
         textarea.addEventListener('input', () => {
-            charCount.textContent = `${textarea.value.length} / 30
+            charCount.textContent = `${textarea.value.length} / 300`;
+        });
+
+        document.getElementById('violationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true;
+            btn.innerText = "SUBMITTING TO THE ROYAL COURT...";
+
+            try {
+                const snapshot = await db.collection('complaints').get();
+                const serialNo = snapshot.size + 1;
+
+                await db.collection('complaints').add({
+                    serialNo: serialNo,
+                    date: document.getElementById('violationDate').value,
+                    pName: document.getElementById('pName').value,
+                    pAlliance: document.getElementById('pAlliance').value,
+                    pID: document.getElementById('pID').value,
+                    dName: document.getElementById('dName').value,
+                    dAlliance: document.getElementById('dAlliance').value,
+                    dID: document.getElementById('dID').value,
+                    violationType: document.getElementById('violationType').value,
+                    notes: document.getElementById('notes').value,
+                    evidenceUrl: document.getElementById('evidenceUrl').value,
+                    actionTaken: "Pending review",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert("Your violation report has been submitted successfully to The Royal Court!");
+                document.getElementById('violationForm').reset();
+                charCount.textContent = "0 / 300";
+            } catch (error) {
+                alert("Error sending report.");
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "File Complaint to The Court";
+            }
+        });
+    </script>
+</body>
+</html>
